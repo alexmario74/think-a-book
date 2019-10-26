@@ -16,10 +16,10 @@ const template = () =>
 </div>\
 <style>\
 .container {\
-    margin: auto 20px;\
+    margin: 20px auto;\
     padding: 8px;\
     height: 100vh;\
-    width: 100%;\
+    width: 80%;\
 }\
 .row {\
     margin: 8px;\

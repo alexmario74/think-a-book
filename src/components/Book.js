@@ -9,6 +9,8 @@ class Book extends HTMLElement {
     connectedCallback() {
         const { title, author, description } = this._book;
         
+        this.sr.innerHTML = this.styles();
+
         const titleContainer = document.createElement("div");
         const titleLabel = document.createElement("span");
         titleLabel.textContent = "Title:";
@@ -47,6 +49,27 @@ class Book extends HTMLElement {
 
     get book() {
         return this._book;
+    }
+
+    styles() {
+        return `<style>
+div {
+    max-width: 90%;
+}
+div > span {
+    margin-right: 8px;
+}
+span {
+    line-height: 1.6rem;
+    color: #444;
+}
+span:first-child {
+    font-weight: bold;
+}
+div:last-child {
+    margin-bottom: 50px;
+}
+</style>`;
     }
 }
 

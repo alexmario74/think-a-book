@@ -22,14 +22,16 @@ class BookList extends HTMLElement {
     }
 
     render() {
-        this.sr.innerHTML = "";
+        this.sr.innerHTML = this.styles();
 
         if (this._books) {
-            const bookList = document.createElement("ul");
-            this.sr.appendChild(bookList);
             if (this._books.length === 0) {
-                this.sr.appendChild(document.createTextNode("No books found"));
+                const content = document.createElement("div");
+                content.textContent = "No books found";
+                this.sr.appendChild(content);
             } else {
+                const bookList = document.createElement("ul");
+                this.sr.appendChild(bookList);
                 this._books.forEach(book => {
                     const container = document.createElement("li");
                     bookList.appendChild(container);
@@ -41,8 +43,23 @@ class BookList extends HTMLElement {
                 });
             }
         } else {
-            this.sr.appendChild(document.createTextNode("Please select a title"));
+            const content = document.createElement("div");
+            content.textContent = "Please select a title";
+            this.sr.appendChild(content);
         }
+    }
+
+    styles() {
+        return `<style>
+div {
+    text-align: center;
+    font-weight: center;
+    font-size: 2.4rem;
+}
+li {
+    list-style-type: none;
+}
+</style>`;
     }
 }
 
