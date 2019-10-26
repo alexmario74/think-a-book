@@ -25,16 +25,4 @@ const store = {
     }
 }
 
-export async function dispatch(action, value) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            store.dispatch("RESULTS_FETCHED", [{
-                title: "Anna Karenina",
-                author: "Leo Tolstoy",
-                year: 1878
-            }]);
-        }, Math.floor(Math.random() * 10));
-    });
-}
-
 export default store;
