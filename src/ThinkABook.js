@@ -25,7 +25,7 @@ const template = () =>
 }\
 </style>';
 
-class AppContainer extends HTMLElement {
+class ThinkABook extends HTMLElement {
     constructor() {
         super();
 
@@ -47,4 +47,4 @@ class AppContainer extends HTMLElement {
     }
 }
 
-customElements.define("app-container", AppContainer);
+customElements.define("think-a-book", ThinkABook);

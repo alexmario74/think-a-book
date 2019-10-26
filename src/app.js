@@ -1,4 +1,4 @@
-import "./AppContainer";
+import "./ThinkABook";
 
 function render(el, app) {
     if (typeof el === "string") {
@@ -8,4 +8,4 @@ function render(el, app) {
     el.innerHTML = app;
 }
 
-render("#app", "<app-container />");
+render("#app", "<think-a-book />");
