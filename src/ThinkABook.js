@@ -39,9 +39,8 @@ class ThinkABook extends HTMLElement {
     }
 
     connectedCallback() {
-        this.sr.addEventListener("onSearch", q => {
-            store.dispatch("SEARCH", q);
-        });
+        this.sr.addEventListener("onSearch", q =>
+            store.dispatch("SEARCH", q));
         this.bookList = this.sr.querySelector("book-list");
     }
 

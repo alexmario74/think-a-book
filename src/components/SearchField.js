@@ -17,7 +17,7 @@ class SearchField extends HTMLElement {
         const searchButton = document.createElement("button");
         searchButton.textContent = "Search...";
 
-        searchButton.onclick = _ => {
+        searchButton.onclick = _ =>
             this.dispatchEvent(
                 new CustomEvent("onSearch", {
                     detail: field.value,
@@ -25,7 +25,6 @@ class SearchField extends HTMLElement {
                     bubbles: true
                 })
             );
-        };
 
         container.appendChild(searchButton);
 
