@@ -1,7 +1,9 @@
 import "./components/SearchField";
 import "./components/BookList";
 
-import store, { dispatch } from "./store/index";
+import store from "./store/index";
+
+import search from "./lib/GoogleAPI";
 
 const template = () =>
     '<div class="container">\
@@ -32,14 +34,20 @@ class ThinkABook extends HTMLElement {
         this.sr = this.attachShadow({ mode: "open" });
         this.sr.innerHTML = template();
 
+        store.addEventListener("SEARCH", this.performSearch.bind(this));
         store.addEventListener("RESULTS_FETCHED", this.onBooksChanged.bind(this));
     }
 
     connectedCallback() {
         this.sr.addEventListener("onSearch", q => {
-            dispatch("SEARCH", q);
+            store.dispatch("SEARCH", q);
         });
         this.bookList = this.sr.querySelector("book-list");
+    }
+
+    async performSearch({ detail }) {
+        const books = await search(detail);
+        store.dispatch("RESULTS_FETCHED", books);
     }
 
     onBooksChanged(books) {
