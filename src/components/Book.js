@@ -7,7 +7,7 @@ class Book extends HTMLElement {
     }
 
     connectedCallback() {
-        const { title, author, year } = this._book;
+        const { title, author, description } = this._book;
         
         const titleContainer = document.createElement("div");
         const titleLabel = document.createElement("span");
@@ -27,18 +27,18 @@ class Book extends HTMLElement {
 
         authorContainer.appendChild(authorName);
 
-        const yearContainer = document.createElement("div");
-        const yearLabel = document.createElement("span");
-        yearLabel.textContent = "Year:";
-        yearContainer.appendChild(yearLabel);
-        const yearValue = document.createElement("span");
-        yearValue.textContent = year;
+        const descriptionContainer = document.createElement("div");
+        const descriptionLabel = document.createElement("span");
+        descriptionLabel.textContent = "Description:";
+        descriptionContainer.appendChild(descriptionLabel);
+        const descriptionValue = document.createElement("span");
+        descriptionValue.textContent = description;
 
-        yearContainer.appendChild(yearValue);
+        descriptionContainer.appendChild(descriptionValue);
 
         this.sr.appendChild(titleContainer);
         this.sr.appendChild(authorContainer);
-        this.sr.appendChild(yearContainer);
+        this.sr.appendChild(descriptionContainer);
     }
 
     set book(book) {
