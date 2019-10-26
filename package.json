@@ -1,0 +1,22 @@
+{
+  "name": "think-a-book",
+  "version": "0.0.1",
+  "description": "Create an application that will allow users to search for books...",
+  "main": "src/app.js",
+  "scripts": {
+    "serve": "rollup -c -w src/*.js"
+  },
+  "keywords": [
+    "javascript",
+    "rollup",
+    "serve"
+  ],
+  "author": "alexmario74@gmail.com",
+  "license": "SEE LICENSE IN LICENSE file",
+  "devDependencies": {
+    "rollup": "^1.25.0",
+    "rollup-plugin-livereload": "^1.0.4",
+    "rollup-plugin-serve": "^1.0.1",
+    "serve": "^11.2.0"
+  }
+}
