@@ -1,4 +1,6 @@
 
+import "./TextWithPreview";
+
 class Book extends HTMLElement {
     constructor() {
         super();
@@ -28,34 +30,8 @@ class Book extends HTMLElement {
 
         const descriptionContainer = document.createElement("div");
         descriptionContainer.classList.add("description");
-        if (description && description.length > 120) {
-            const preview = document.createElement("div");
-            preview.classList.add("preview");
-            descriptionContainer.appendChild(preview);
-            preview.textContent = description.substring(0, 120);
-
-            const fullContent = document.createElement("div");
-            fullContent.classList.add("full-content");
-            fullContent.classList.add("hide");
-            fullContent.textContent = description;
-
-            descriptionContainer.appendChild(fullContent);
-
-            preview.addEventListener("click", evt => {
-                const el = evt.target;
-                el.classList.add("hide");
-                fullContent.classList.remove("hide");
-            });
-
-            fullContent.addEventListener("click", evt => {
-                const el = evt.target;
-                el.classList.add("hide");
-                preview.classList.remove("hide");
-            });
-        } else {
-            descriptionContainer.textContent = !description || description.length === 0 ? " - " : description;
-        }
-
+        descriptionContainer.innerHTML = `<text-with-preview>${description}</text-with-preview>`;
+  
         this.sr.appendChild(titleContainer);
         this.sr.appendChild(authorContainer);
         this.sr.appendChild(publishedEdition);
@@ -91,27 +67,11 @@ div > span {
     line-height: 1.6rem;
     color: #444;
 }
-.preview, .full-content {
-    pointer-events: none;
-}
-.preview::after {
-    content: " ...Show more";
-    font-weight: bold;
-    pointer-events: auto;
-}
-.full-content::after {
-    content: " ...Show less";
-    font-weight: bold;
-    pointer-events: auto;
-}
 .published {
     margin-bottom: 20px;
 }
 .published::before {
     content: "Published: ";
-}
-.hide {
-    display: none;
 }
 a[target="_blank"] {
     text-decoration: none;
