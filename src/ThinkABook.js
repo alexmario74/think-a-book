@@ -1,5 +1,6 @@
 import "./components/SearchField";
 import "./components/BookList";
+import "./components/ProgressBar";
 
 import store from "./store/index";
 
@@ -14,6 +15,7 @@ const template = () =>
         <book-list/>\
     </div>\
 </div>\
+<progress-bar visible="false"/>\
 <style>\
 .container {\
     margin: 20px auto;\
@@ -34,6 +36,8 @@ class ThinkABook extends HTMLElement {
         this.sr = this.attachShadow({ mode: "open" });
         this.sr.innerHTML = template();
 
+        this.progressBar = this.sr.querySelector("progress-bar");
+
         store.addEventListener("SEARCH", this.performSearch.bind(this));
         store.addEventListener("RESULTS_FETCHED", this.onBooksChanged.bind(this));
     }
@@ -45,12 +49,14 @@ class ThinkABook extends HTMLElement {
     }
 
     async performSearch({ detail }) {
+        this.progressBar.setAttribute("visible", "true");
         const books = await search(detail);
         store.dispatch("RESULTS_FETCHED", books);
     }
 
     onBooksChanged(books) {
         this.bookList.books = books;
+        this.progressBar.setAttribute("visible", "false");
     }
 }
 
