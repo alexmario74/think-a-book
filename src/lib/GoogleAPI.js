@@ -18,7 +18,8 @@ function toBookList({ items }) {
         .map(({ volumeInfo }) => ({
             title: volumeInfo.title,
             author: volumeInfo.authors.join(", "),
-            description: volumeInfo.description 
+            description: volumeInfo.description,
+            published: volumeInfo.publishedDate
         }));
 }
 

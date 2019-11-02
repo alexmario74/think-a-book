@@ -7,8 +7,8 @@ class Book extends HTMLElement {
     }
 
     connectedCallback() {
-        const { title, author, description } = this._book;
-        
+        const { title, author, description, published } = this._book;
+
         this.sr.innerHTML = this.styles();
 
         const titleContainer = document.createElement("div");
@@ -20,6 +20,11 @@ class Book extends HTMLElement {
         authorContainer.classList.add("author");
 
         authorContainer.textContent = author;
+
+        const publishedEdition = document.createElement("div");
+        publishedEdition.classList.add("published");
+
+        publishedEdition.textContent = published || "N.A.";
 
         const descriptionContainer = document.createElement("div");
         descriptionContainer.classList.add("description");
@@ -53,6 +58,7 @@ class Book extends HTMLElement {
 
         this.sr.appendChild(titleContainer);
         this.sr.appendChild(authorContainer);
+        this.sr.appendChild(publishedEdition);
         this.sr.appendChild(descriptionContainer);
     }
 
@@ -97,6 +103,12 @@ div > span {
     content: " ...Show less";
     font-weight: bold;
     pointer-events: auto;
+}
+.published {
+    margin-bottom: 20px;
+}
+.published::before {
+    content: "Published: ";
 }
 .hide {
     display: none;
