@@ -19,7 +19,8 @@ function toBookList({ items }) {
             title: volumeInfo.title,
             author: (volumeInfo.authors || []).join(", "),
             description: volumeInfo.description,
-            published: volumeInfo.publishedDate
+            published: volumeInfo.publishedDate,
+            link: volumeInfo.canonicalVolumeLink,
         }));
 }
 
