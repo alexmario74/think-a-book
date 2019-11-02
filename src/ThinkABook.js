@@ -7,27 +7,28 @@ import store from "./store/index";
 import search from "./lib/GoogleAPI";
 
 const template = () =>
-    '<div class="container">\
-    <div class="row">\
-        <search-field />\
-    </div>\
-    <div class="row">\
-        <book-list/>\
-    </div>\
-</div>\
-<progress-bar visible="false"/>\
-<style>\
-.container {\
-    margin: 20px auto;\
-    padding: 8px;\
-    height: 100vh;\
-    width: 80%;\
-}\
-.row {\
-    margin: 8px;\
-    width: 100%;\
-}\
-</style>';
+    `<div class="container">
+    <div class="row">
+        <search-field />
+    </div>
+    <div class="row">
+        <book-list/>
+    </div>
+</div>
+<progress-bar visible="false"/>
+<style>
+.container {
+    margin: 20px auto;
+    padding: 8px;
+    height: 100vh;
+    width: 80%;
+    font-family: Arial, Sanse-Serif;
+}
+.row {
+    margin: 8px;
+    width: 100%;
+}
+</style>`;
 
 class ThinkABook extends HTMLElement {
     constructor() {
