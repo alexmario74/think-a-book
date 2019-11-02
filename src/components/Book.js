@@ -7,14 +7,14 @@ class Book extends HTMLElement {
     }
 
     connectedCallback() {
-        const { title, author, description, published } = this._book;
+        const { title, author, description, published, link } = this._book;
 
         this.sr.innerHTML = this.styles();
 
         const titleContainer = document.createElement("div");
         titleContainer.classList.add("title");
 
-        titleContainer.textContent = title;
+        titleContainer.innerHTML = `${title}<a href="${link}" target="_blank">&DDotrahd;</a>`;
 
         const authorContainer = document.createElement("div");
         authorContainer.classList.add("author");
@@ -112,6 +112,10 @@ div > span {
 }
 .hide {
     display: none;
+}
+a[target="_blank"] {
+    text-decoration: none;
+    margin-left: 12px;
 }
 </style>`;
     }
