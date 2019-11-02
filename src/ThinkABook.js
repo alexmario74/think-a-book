@@ -39,8 +39,15 @@ class ThinkABook extends HTMLElement {
 
         this.progressBar = this.sr.querySelector("progress-bar");
 
-        store.addEventListener("SEARCH", this.performSearch.bind(this));
-        store.addEventListener("RESULTS_FETCHED", this.onBooksChanged.bind(this));
+        this.listeners = [
+            ["SEARCH", this.performSearch.bind(this)],
+            ["SEARCH", this.showProgressBar.bind(this)],
+            ["RESULTS_FETCHED", this.onBooksChanged.bind(this)],
+            ["RESULTS_FETCHED", this.hideProgressBar.bind(this)]
+        ].map(([event, listener]) => {
+            store.addEventListener(event, listener);
+            return () => store.removeEventListener(event, listener);
+        });
     }
 
     connectedCallback() {
@@ -49,15 +56,25 @@ class ThinkABook extends HTMLElement {
         this.bookList = this.sr.querySelector("book-list");
     }
 
+    disconnectedCallback() {
+        this.listeners.forEach(listener => listener());
+    }
+
     async performSearch({ detail }) {
-        this.progressBar.setAttribute("visible", "true");
         const books = await search(detail);
         store.dispatch("RESULTS_FETCHED", books);
     }
 
     onBooksChanged(books) {
         this.bookList.books = books;
-        this.progressBar.setAttribute("visible", "false");
+    }
+
+    showProgressBar() {
+        this.progressBar.setAttribute("visible", "true");
+    }
+
+    hideProgressBar() {
+        this.progressBar.setAttribute("visible", "false");   
     }
 }
 
