@@ -9,6 +9,13 @@ const store = {
 
         this.register.set(evtName, handlers);
     },
+    removeAllEventListener(evtName) {
+        if (!!evtName) {
+            this.register.delete(evtName);
+        } else {
+            this.register.clear();
+        }
+    },
     async dispatch(action, payload) {
         const handlers = this.register.get(action);
         if (handlers) {
@@ -24,5 +31,11 @@ const store = {
         return Promise.resolve();
     }
 }
+
+window.onunload = function () {
+    if (store.hasListeners()) {
+        store.removeAllEventListener();
+    }
+};
 
 export default store;
