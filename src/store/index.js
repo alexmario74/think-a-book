@@ -1,23 +1,19 @@
-const store = {
-    register: new Map(),
-    addEventListener(evtName, fn) {
-        let handlers = this.register.get(evtName);
-        if (!handlers) {
-            handlers = [];
-        }
-        handlers.push(fn);
+const register = new Map();
 
-        this.register.set(evtName, handlers);
-    },
-    removeAllEventListener(evtName) {
-        if (!!evtName) {
-            this.register.delete(evtName);
-        } else {
-            this.register.clear();
-        }
+const store = {
+    withActions(actions) {
+        actions.forEach(([action, handler]) => {
+            let handlers = register.get(action);
+            if (!handlers) {
+                handlers = [];
+            }
+            handlers.push(handler);
+
+            register.set(action, handlers);
+        });
     },
     async dispatch(action, payload) {
-        const handlers = this.register.get(action);
+        const handlers = register.get(action);
         if (handlers) {
             return Promise.all(
                 handlers.map(
@@ -33,8 +29,8 @@ const store = {
 }
 
 window.onunload = function () {
-    if (store.hasListeners()) {
-        store.removeAllEventListener();
+    if (register.size > 0) {
+        register.clear();
     }
 };
 
