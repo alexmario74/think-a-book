@@ -2,10 +2,6 @@ import "./components/SearchField";
 import "./components/BookList";
 import "./components/ProgressBar";
 
-import store from "./store/index";
-
-import search from "./lib/GoogleAPI";
-
 const template = () =>
     `<div class="container">
     <div class="row">
@@ -40,28 +36,11 @@ class ThinkABook extends HTMLElement {
         this.progressBar = this.sr.querySelector("progress-bar");
         this.bookList = this.sr.querySelector("book-list");
 
-        [
-            ["SEARCH", this.performSearch.bind(this)],
-            ["SEARCH", this.showProgressBar.bind(this)],
-            ["RESULTS_FETCHED", this.onBooksChanged.bind(this)],
-            ["RESULTS_FETCHED", this.hideProgressBar.bind(this)]
-        ].forEach(([event, listener]) =>
-            store.addEventListener(event, listener));
-
-        this.attachComponentsListeners();
+        this.listeners = [];
     }
 
     disconnectedCallback() {
         this.listeners.forEach(listener => listener());
-    }
-
-    async performSearch({ detail }) {
-        const books = await search(detail);
-        store.dispatch("RESULTS_FETCHED", books);
-    }
-
-    onBooksChanged(books) {
-        this.bookList.books = books;
     }
 
     showProgressBar() {
@@ -72,14 +51,28 @@ class ThinkABook extends HTMLElement {
         this.progressBar.setAttribute("visible", "false");   
     }
 
-    attachComponentsListeners() {
-        const onSearchListener = this.onSearch.bind(this);
-        this.sr.addEventListener("onSearch", onSearchListener);    
+    connectedCallback() {
+        const onSearchListener = ev => {
+            this.showProgressBar();
+
+            this.dispatchEvent(
+                new CustomEvent("onSearch", {
+                    detail: ev.detail,
+                    composed: true,
+                    bubbles: true
+                })
+            );
+        };
+
+        this.sr.addEventListener("onSearch", onSearchListener);
         this.listeners.push(() => this.sr.removeEventListener("onSearch", onSearchListener));
     }
 
-    onSearch(q) {
-        store.dispatch("SEARCH", q);
+    set books(books) {
+        this.bookList.books = books;
+        if (Boolean(this.progressBar.getAttribute("visible"))) {
+            this.hideProgressBar();
+        }
     }
 }
 
